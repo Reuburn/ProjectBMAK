@@ -21,7 +21,7 @@ public class ConnectThread extends Thread {
 		btDevice = device;
 		
 		if (Build.VERSION.SDK_INT < 10){
-			Method m = btDevice.getClass().getMethod("createRfcommSocket",new Class[] { int.class });
+			Method m = btDevice.getClass().getMethod("createInsecureRfcommSocket",new Class[] { int.class });
 			tmp = (BluetoothSocket) m.invoke(device, Integer.valueOf(1));
 		}
 		else{
@@ -67,7 +67,7 @@ public class ConnectThread extends Thread {
 		try {
 			Log.d("CONNECTTHREAD","Attempting to connect");
 			btSocket.connect();
-			Log.e("", "Connection Successfull thank fuck");
+			Log.e("", "Connection Successful");
 			success = true;
 		}
 		catch (IOException e){
