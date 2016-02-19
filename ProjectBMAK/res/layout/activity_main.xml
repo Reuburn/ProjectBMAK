@@ -1,0 +1,79 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.projectbmak.MainActivity" >
+
+        <requestFocus />
+
+        <ListView
+            android:id="@+id/lst_btListView"
+            android:layout_width="250dp"
+            android:layout_height="150dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="33dp"
+            android:choiceMode="singleChoice"
+            android:listSelector="@android:color/holo_blue_light" >
+        </ListView>
+
+        <TextView
+            android:id="@+id/lbl_bluetoothAvailableLabel"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:ems="10"
+            android:gravity="center|top" />
+
+        <Button
+            android:id="@+id/btn_scanDevices"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/btn_connectComputer"
+            android:layout_alignEnd="@+id/btn_connectComputer"
+            android:layout_alignLeft="@+id/btn_connectComputer"
+            android:layout_alignStart="@+id/btn_connectComputer"
+            android:layout_below="@+id/lst_btListView"
+            android:layout_marginTop="26dp"
+            android:onClick="scanDevices"
+            android:text="@string/scan_devices" />
+
+        <Button
+            android:id="@+id/btn_connectComputer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btn_scanDevices"
+            android:layout_centerHorizontal="true"
+            android:onClick="connectToDevice"
+            android:text="@string/connect_to_computer" />
+
+        <Button
+            android:id="@+id/btn_Keyboard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/btn_connectComputer"
+            android:layout_alignEnd="@+id/btn_connectComputer"
+            android:layout_alignLeft="@+id/btn_connectComputer"
+            android:layout_alignStart="@+id/btn_connectComputer"
+            android:layout_below="@+id/btn_connectComputer"
+            android:onClick="switchToKeyboard"
+            android:text="@string/global_keyboard_label" />
+
+        <Button
+            android:id="@+id/btn_Mouse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/btn_connectComputer"
+            android:layout_alignEnd="@+id/btn_connectComputer"
+            android:layout_alignLeft="@+id/btn_connectComputer"
+            android:layout_alignStart="@+id/btn_connectComputer"
+            android:layout_below="@+id/btn_Keyboard"
+            android:onClick="switchToMouse"
+            android:text="@string/global_mouse_label" />
+        
+</RelativeLayout>

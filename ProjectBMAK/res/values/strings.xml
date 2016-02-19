@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">ProjectBMAK</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="connect_to_computer">Connect to Device</string>
+    <string name="title_activity_keyboard">KeyboardActivity</string>
+    <string name="global_mouse_label">Mouse</string>
+    <string name="title_activity_mouse">MouseActivity</string>
+    <string name="global_keyboard_label">Keyboard</string>
+    <string name="scan_devices">Scan Devices</string>
+    <string name="disconnectDevice">Disconnect Device</string>
+    <string name="title_activity_bluetooth_connection">BluetoothConnectionActivity</string>
+    <string name="show_keyboard">Show Keyboard</string>
+    <string name="function_key">F Toggle</string>
+    <string name="ctrl_key">CTRL</string>
+    <string name="alt_key">ALT</string>
+    <string name="del_key">DEL</string>
+
+</resources>
