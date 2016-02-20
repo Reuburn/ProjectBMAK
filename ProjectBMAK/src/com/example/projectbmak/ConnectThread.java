@@ -14,11 +14,13 @@ public class ConnectThread extends Thread {
 	private BluetoothSocket btSocket;
 	private final BluetoothDevice btDevice;
 	private final static UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
+	private boolean deviceConnected;
 	public ManageConnectedThread btConnectedThread;
 
 	public ConnectThread(BluetoothDevice device) throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException{
 		BluetoothSocket tmp = null;
 		btDevice = device;
+		setDeviceConnected(false);
 		
 		if (Build.VERSION.SDK_INT < 10){
 			Method m = btDevice.getClass().getMethod("createInsecureRfcommSocket",new Class[] { int.class });
@@ -36,8 +38,8 @@ public class ConnectThread extends Thread {
 		try {
 			Log.e("CONNECTTHREAD", "Connecting...");
 			btSocket.connect();
-
 			Log.e("CONNECTTHREAD", "Connected");
+			setDeviceConnected(true);
 		}
 		catch (IOException connectException) {
 			connectException.printStackTrace();
@@ -46,8 +48,10 @@ public class ConnectThread extends Thread {
 			//return;
 		}
 		
-		//btConnectedThread = new ManageConnectedThread(btSocket);
-		//btConnectedThread.start();
+		if (deviceConnected == true){
+			btConnectedThread = new ManageConnectedThread(btSocket);
+			btConnectedThread.start();
+		}
 	}
 
 	private void fallbackMethod() {
@@ -56,6 +60,7 @@ public class ConnectThread extends Thread {
 			btSocket = (BluetoothSocket) btDevice.getClass().getMethod("createRfcommSocket", new Class[] {int.class}).invoke(btDevice, 1);
 			btSocket.connect();
 			Log.e("CONNECTTHREAD", "Connected");
+			setDeviceConnected(true);
 		}
 		catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | IOException e){
 			e.printStackTrace();
@@ -99,12 +104,21 @@ public class ConnectThread extends Thread {
 		try {
 			btSocket.close();
 			Log.e("CONNECTTHREAD", "Connection closed");
+			setDeviceConnected(false);
 		}
 		catch(IOException e) {
 			Log.d("CONNECTTHREAD", "Unable to close connection: " + e.toString());
 			return;
 		}
 		return;
+	}
+
+	public boolean isDeviceConnected() {
+		return deviceConnected;
+	}
+
+	public void setDeviceConnected(boolean deviceConnected) {
+		this.deviceConnected = deviceConnected;
 	}
 }
 
