@@ -36,6 +36,8 @@ public class ConnectThread extends Thread {
 		try {
 			Log.e("CONNECTTHREAD", "Connecting...");
 			btSocket.connect();
+
+			Log.e("CONNECTTHREAD", "Connected");
 		}
 		catch (IOException connectException) {
 			connectException.printStackTrace();
