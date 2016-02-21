@@ -16,10 +16,20 @@ public class ConnectThread extends Thread {
 	private final static UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
 	private boolean deviceConnected;
 	public ManageConnectedThread btConnectedThread;
+	
+	public interface OnConnectionCallback {
 
-	public ConnectThread(BluetoothDevice device) throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException{
+		public void onConnected();
+		public void onConnectedFailed();
+
+	}
+	
+	private OnConnectionCallback mCallback;
+
+	public ConnectThread(BluetoothDevice device, OnConnectionCallback callback) throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException{
 		BluetoothSocket tmp = null;
 		btDevice = device;
+		mCallback = callback;
 		setDeviceConnected(false);
 		
 		if (Build.VERSION.SDK_INT < 10){
@@ -40,6 +50,7 @@ public class ConnectThread extends Thread {
 			btSocket.connect();
 			Log.e("CONNECTTHREAD", "Connected");
 			setDeviceConnected(true);
+			
 		}
 		catch (IOException connectException) {
 			connectException.printStackTrace();
@@ -69,37 +80,6 @@ public class ConnectThread extends Thread {
 		}
 	}
 	
-	/*public BluetoothSocketWrapper connect() throws IOException{
-		boolean success = false;
-		try {
-			Log.d("CONNECTTHREAD","Attempting to connect");
-			btSocket.connect();
-			Log.e("", "Connection Successful");
-			success = true;
-		}
-		catch (IOException e){
-			try{
-				btSocket = new FallbackBluetoothSocket(btSocket.getUnderlyingSocket());
-				Thread.sleep(500);
-				btSocket.connect();success = true;
-			}
-			catch (FallbackException e1){
-				Log.w("CONNECTTHREAD", "Could not init FallbackBluetoothSocketClasses.", e);
-			}
-			catch (InterruptedException e1){
-				Log.w("CONNECTTHREAD", e1.getMessage(), e1);
-			}
-			catch(IOException e1){
-				Log.w("CONNECTTHREAD", "Fallback failed. Cancelling.", e1);
-			}
-		}
-		
-		if (!success){
-			throw new IOException("Could not connect to device: " + btDevice.getAddress());
-		}
-		return btSocket;
-	}*/
-	
 	public void cancel() {
 		try {
 			btSocket.close();
@@ -118,7 +98,15 @@ public class ConnectThread extends Thread {
 	}
 
 	public void setDeviceConnected(boolean deviceConnected) {
+		if(mCallback != null){ 
+			mCallback.onConnected(); 
+		}
+		else{
+			mCallback.onConnectedFailed();
+		}
 		this.deviceConnected = deviceConnected;
 	}
+	
 }
+
 
