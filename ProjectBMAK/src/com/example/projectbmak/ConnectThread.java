@@ -17,7 +17,7 @@ public class ConnectThread extends Thread {
 	private boolean deviceConnected;
 	public ManageConnectedThread btConnectedThread;
 	
-	public interface OnConnectionCallback {
+	public static interface OnConnectionCallback {
 
 		public void onConnected();
 		public void onConnectedFailed();
@@ -60,8 +60,8 @@ public class ConnectThread extends Thread {
 		}
 		
 		if (deviceConnected == true){
-			btConnectedThread = new ManageConnectedThread(btSocket);
-			btConnectedThread.start();
+			//btConnectedThread = new ManageConnectedThread(btSocket);
+			//btConnectedThread.start();
 		}
 	}
 
@@ -99,10 +99,12 @@ public class ConnectThread extends Thread {
 
 	public void setDeviceConnected(boolean deviceConnected) {
 		if(mCallback != null){ 
-			mCallback.onConnected(); 
-		}
-		else{
-			mCallback.onConnectedFailed();
+			if(deviceConnected){
+				mCallback.onConnected(); 
+			}				
+			else{
+				mCallback.onConnectedFailed();
+			}
 		}
 		this.deviceConnected = deviceConnected;
 	}

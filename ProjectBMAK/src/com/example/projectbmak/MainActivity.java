@@ -6,6 +6,8 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.example.projectbmak.ConnectThread.OnConnectionCallback;
+
 import android.app.Activity;
 import android.bluetooth.*;
 import android.content.Intent;
@@ -24,6 +26,10 @@ import android.widget.Toast;
 public class MainActivity extends Activity {
 	
 	private final static int REQUEST_ENABLE_BT = 1;
+	private BluetoothDevice contactedDevice;
+	private ConnectThread btConnection;
+	private boolean deviceConnected = false;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -104,7 +110,7 @@ public class MainActivity extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data){
 		if (requestCode == REQUEST_ENABLE_BT) {
 			if (resultCode == RESULT_OK){
-				//data.lbl_bluetoothAvailable.setText("Please scan for devices.");
+				this.changeBluetoothAvailabilityLabel();
 			}
 			else{
 				finish();
@@ -113,12 +119,57 @@ public class MainActivity extends Activity {
 	}
 	
 	public void connectToDevice(View v) throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException{
-		//TODO Find the value in the hashmap based on the value of the MAC address in the list view
-		String macAddress = findMacAddress(data.str_selectedDevice);
-		BluetoothDevice device = data.hm_btDeviceMap.get(macAddress);
-		showToast(device.getName());
-		ConnectThread btConnection = new ConnectThread(device);
-		btConnection.start();
+		
+		if (deviceConnected == false){
+			String macAddress = findMacAddress(data.str_selectedDevice);
+			contactedDevice = data.hm_btDeviceMap.get(macAddress);
+			showToast("Attempting to connect to " + contactedDevice.getName());
+			btConnection = new ConnectThread(contactedDevice, (new ConnectThread.OnConnectionCallback () {
+	            @Override
+	            public void onConnected() {
+	            	Log.i("MAINACTIVITY","Connected now");
+	            	deviceConnected = true;
+	            	changeConnectButtonText(deviceConnected);
+	            }
+	            @Override
+	            public void onConnectedFailed() {
+	            	Log.i("MAINACTIVITY","Connection failed");
+	            	deviceConnected = false;
+	            }
+			}));
+			btConnection.start();
+		}
+		else if (deviceConnected == true){
+			btConnection.cancel();
+			Log.i("MAINACTIVITY","Disconnected Successfully");
+			deviceConnected = false;
+			changeConnectButtonText(deviceConnected);
+		}
+		
+	}
+
+	public void changeBluetoothAvailabilityLabel(){
+		data.lbl_bluetoothAvailable.setText("Please scan for devices.");
+	}
+	
+	public void changeConnectButtonText(boolean deviceConnected){
+		if(deviceConnected == true){
+			runOnUiThread(new Runnable() {
+			     @Override
+			     public void run() {
+			    	 data.btn_connectComputer.setText("Disconnect Device");
+			    	 showToast(contactedDevice.getName() + " is connected.");
+			     }});
+		}
+		else {
+			runOnUiThread(new Runnable() {
+			     @Override
+			     public void run() {
+			    	 data.btn_connectComputer.setText("Connect to Device");
+			    	 showToast("Disconnected from device.");
+			     }});
+		}
+		
 	}
 	
 	public void checkBluetooth(){
@@ -222,6 +273,14 @@ public class MainActivity extends Activity {
 	
 	private void showToast(String message) {
 		Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+	}
+
+	public BluetoothDevice getContactedDevice() {
+		return contactedDevice;
+	}
+
+	public void setContactedDevice(BluetoothDevice contactedDevice) {
+		this.contactedDevice = contactedDevice;
 	}
 	
 }
