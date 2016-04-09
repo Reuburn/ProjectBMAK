@@ -1,0 +1,185 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.projectbmak.SpecialFunctionFragment" >
+
+    <!-- TODO: Update blank fragment layout -->
+
+     <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <Button
+            android:id="@+id/btn_tab"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="90dp"
+            android:layout_height="50dp"
+            android:layout_alignLeft="@+id/btn_escape"
+            android:layout_alignStart="@+id/btn_escape"
+            android:layout_below="@+id/btn_escape"
+            android:onClick="onTabClick"
+            android:text="@string/str_tab" />
+
+        <Button
+            android:id="@+id/btn_capsLock"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="90dp"
+            android:layout_height="50dp"
+            android:layout_alignLeft="@+id/btn_tab"
+            android:layout_alignStart="@+id/btn_tab"
+            android:layout_below="@+id/btn_tab"
+            android:onClick="onCapsLockClick"
+            android:text="@string/str_capsLock" />
+
+        <Button
+            android:id="@+id/btn_ctrl"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="90dp"
+            android:layout_height="50dp"
+            android:layout_alignTop="@+id/btn_tab"
+            android:layout_toRightOf="@+id/btn_tab"
+            android:layout_toEndOf="@+id/btn_tab"
+            android:onClick="onCtrlClick"
+            android:text="@string/str_ctrl" />
+
+        <Button
+            android:id="@+id/btn_alt"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="90dp"
+            android:layout_height="50dp"
+            android:layout_alignTop="@+id/btn_capsLock"
+            android:layout_toRightOf="@+id/btn_capsLock"
+            android:layout_toEndOf="@+id/btn_capsLock"
+            android:onClick="onAltClick"
+            android:text="@string/str_alt" />
+
+        <Button
+            android:id="@+id/btn_shift"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="90dp"
+            android:layout_height="50dp"
+            android:layout_alignTop="@+id/btn_escape"
+            android:layout_toRightOf="@+id/btn_escape"
+            android:layout_toEndOf="@+id/btn_escape"
+            android:onClick="onShiftClick"
+            android:text="@string/str_shift" />
+
+        <Button
+            android:id="@+id/btn_altGr"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="90dp"
+            android:layout_height="50dp"
+            android:layout_alignTop="@+id/btn_alt"
+            android:layout_toRightOf="@+id/btn_alt"
+            android:layout_toEndOf="@+id/btn_alt"
+            android:onClick="onAltGrClick"
+            android:text="@string/str_altGr" />
+
+        <Button
+            android:id="@+id/btn_insert"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="90dp"
+            android:layout_height="50dp"
+            android:layout_alignTop="@+id/btn_prtScr"
+            android:layout_toRightOf="@+id/btn_prtScr"
+            android:layout_toEndOf="@+id/btn_prtScr"
+            android:onClick="onInsertClick"
+            android:text="@string/str_insert" />
+
+        <Button
+            android:id="@+id/btn_home"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="90dp"
+            android:layout_height="50dp"
+            android:layout_alignTop="@+id/btn_insert"
+            android:layout_toRightOf="@+id/btn_insert"
+            android:layout_toEndOf="@+id/btn_insert"
+            android:onClick="onHomeClick"
+            android:text="@string/str_home" />
+        
+        <Button
+            android:id="@+id/btn_pageUp"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="90dp"
+            android:layout_height="50dp"
+            android:layout_alignTop="@+id/btn_home"
+            android:layout_toRightOf="@+id/btn_home"
+            android:layout_toEndOf="@+id/btn_home"
+            android:onClick="onPageUpClick"
+            android:text="@string/str_pageUp" />
+        
+        <Button
+            android:id="@+id/btn_delete"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="90dp"
+            android:layout_height="50dp"
+            android:layout_alignTop="@+id/btn_winKey"
+            android:layout_toRightOf="@+id/btn_winKey"
+            android:layout_toEndOf="@+id/btn_winKey"
+            android:onClick="onDeleteClick"
+            android:text="@string/str_delete" />
+        
+        <Button
+            android:id="@+id/btn_end"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="90dp"
+            android:layout_height="50dp"
+            android:layout_alignTop="@+id/btn_delete"
+            android:layout_toRightOf="@+id/btn_delete"
+            android:layout_toEndOf="@+id/btn_delete"
+            android:onClick="onEndClick"
+            android:text="@string/str_end" />
+        
+        <Button
+            android:id="@+id/btn_pageDown"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="90dp"
+            android:layout_height="50dp"
+            android:layout_alignTop="@+id/btn_end"
+            android:layout_toRightOf="@+id/btn_end"
+            android:layout_toEndOf="@+id/btn_end"
+            android:onClick="onPageDownClick"
+            android:text="@string/str_pageDown" />
+        
+        <Button
+            android:id="@+id/btn_prtScr"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="90dp"
+            android:layout_height="50dp"
+            android:layout_alignTop="@+id/btn_shift"
+            android:layout_toRightOf="@+id/btn_shift"
+            android:layout_toEndOf="@+id/btn_shift"
+            android:onClick="onPrtScrClick"
+            android:text="@string/str_prtScr" />
+        
+        <ImageButton
+            android:id="@+id/btn_winKey"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="90dp"
+            android:layout_height="50dp"
+            android:layout_alignTop="@+id/btn_ctrl"
+            android:layout_alignBottom="@+id/btn_ctrl"
+            android:layout_toRightOf="@+id/btn_ctrl"
+            android:layout_toEndOf="@+id/btn_ctrl"
+            android:onClick="onWinKeyClick"
+            android:src="@drawable/img_winkey"
+            android:scaleType="fitCenter" />
+
+        <Button
+            android:id="@+id/btn_escape"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="90dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="36dp"
+            android:layout_marginStart="55dp"
+            android:onClick="onEscapeClick"
+            android:text="@string/str_escape" />
+
+    </RelativeLayout>
+
+
+</FrameLayout>

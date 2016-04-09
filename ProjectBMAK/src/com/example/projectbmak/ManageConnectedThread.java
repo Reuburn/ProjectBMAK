@@ -8,11 +8,19 @@ import android.bluetooth.BluetoothSocket;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 
 public class ManageConnectedThread extends Thread {
 	private final BluetoothSocket btSocket;
 	private final InputStream btInStream;
 	private final OutputStream btOutStream;
+	public static final int EXIT_CMD = -1;
+	public static final int VOL_UP_PRESS = 1;
+	public static final int VOL_UP_HELD = 2;
+	public static final int VOL_UP_RELEASED = 3;
+	public static final int VOL_DOWN_PRESS = 4;
+	public static final int VOL_DOWN_HELD = 5;
+	public static final int VOL_DOWN_RELEASED = 6;
 	
 	public ManageConnectedThread(BluetoothSocket btSocket2){
 		
@@ -34,26 +42,17 @@ public class ManageConnectedThread extends Thread {
 	}
 	
 	public void run() {
+		Log.i("MNGCONNTHREAD", "ManageConnectedThread started");
 		byte[] buffer = new byte[1024];
-		int begin = 0;
-		int bytes = 0;
 		
 		while (true){
 			try {
-				bytes += btInStream.read(buffer, bytes, buffer.length - bytes);
-				for(int i = begin; i < bytes; i++){
-					if (buffer[i] == "#".getBytes()[0]){
-						btHandler.obtainMessage(1, begin, i, buffer).sendToTarget();
-						begin = i + 1;
-						if(i == bytes - 1){
-							bytes = 0;
-							begin = 0;
-						}
-					}
-				}		
+				int bytes = btInStream.read(buffer);
+				btHandler.obtainMessage(MainActivity.MESSAGE_READ, bytes, -1, buffer).sendToTarget();
 			}
 			catch(IOException e) {
-				
+				Log.e("MNGCONNTHREAD", "Disconnected", e);
+				break;
 			}
 		}
 	}
@@ -63,16 +62,17 @@ public class ManageConnectedThread extends Thread {
 			btOutStream.write(bytes);
 		} 
 		catch (IOException e) {
-			
+			Log.e("MNGCONNTHREAD", "Error while writing.", e);
 		}
 	}
 	
 	public void cancel() {
 		try {
+			btOutStream.write(EXIT_CMD);
 			btSocket.close();
 		}
 		catch(IOException e) {
-			
+			Log.e("MNGCONNTHREAD", "closing socket failed", e);
 		}
 	}
 	
@@ -91,5 +91,15 @@ public class ManageConnectedThread extends Thread {
 			}
 		}
 	};
+
+	public void write(int output) {
+		try{
+			btOutStream.write(output);
+		}
+		catch (IOException e) {
+			Log.e("MNGCONNTHREAD","Exception during write", e);
+		}
+		
+	}
 }
 

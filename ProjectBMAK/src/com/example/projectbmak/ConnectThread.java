@@ -10,7 +10,10 @@ import android.bluetooth.BluetoothSocket;
 import android.os.Build;
 import android.util.Log;
 
-public class ConnectThread extends Thread {
+public class ConnectThread extends Thread{
+	/**
+	 * 
+	 */
 	private BluetoothSocket btSocket;
 	private final BluetoothDevice btDevice;
 	private final static UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
@@ -60,8 +63,8 @@ public class ConnectThread extends Thread {
 		}
 		
 		if (deviceConnected == true){
-			//btConnectedThread = new ManageConnectedThread(btSocket);
-			//btConnectedThread.start();
+			btConnectedThread = new ManageConnectedThread(btSocket);
+			btConnectedThread.start();
 		}
 	}
 

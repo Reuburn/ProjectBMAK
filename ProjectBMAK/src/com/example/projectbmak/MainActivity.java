@@ -6,8 +6,6 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.example.projectbmak.ConnectThread.OnConnectionCallback;
-
 import android.app.Activity;
 import android.bluetooth.*;
 import android.content.Intent;
@@ -23,12 +21,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity{
 	
 	private final static int REQUEST_ENABLE_BT = 1;
 	private BluetoothDevice contactedDevice;
-	private ConnectThread btConnection;
 	private boolean deviceConnected = false;
+	private ConnectThread btConnection;
+	
+	public static final int MESSAGE_READ = 2;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -120,6 +120,8 @@ public class MainActivity extends Activity {
 	
 	public void connectToDevice(View v) throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException{
 		
+		v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+		
 		if (deviceConnected == false){
 			String macAddress = findMacAddress(data.str_selectedDevice);
 			contactedDevice = data.hm_btDeviceMap.get(macAddress);
@@ -129,7 +131,7 @@ public class MainActivity extends Activity {
 	            public void onConnected() {
 	            	Log.i("MAINACTIVITY","Connected now");
 	            	deviceConnected = true;
-	            	changeConnectButtonText(deviceConnected);
+	            	;
 	            }
 	            @Override
 	            public void onConnectedFailed() {
@@ -138,6 +140,7 @@ public class MainActivity extends Activity {
 	            }
 			}));
 			btConnection.start();
+			BTConnectionFactory.setConnection(btConnection);
 		}
 		else if (deviceConnected == true){
 			btConnection.cancel();
@@ -193,7 +196,7 @@ public class MainActivity extends Activity {
 	}
 	
 	public void scanDevices(View v){
-		
+		v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 		if (data.adpt_btAdapter.isDiscovering()){
 			
 			stopDiscoveringDevices();
@@ -263,11 +266,13 @@ public class MainActivity extends Activity {
 
 	public void switchToKeyboard(View v){
 		Intent intent = new Intent(this,KeyboardActivity.class);
+		v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 		startActivity(intent);
 	}
 	
 	public void switchToMouse(View v){
 		Intent intent = new Intent(this,MouseActivity.class);
+		v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 		startActivity(intent);
 	}
 	

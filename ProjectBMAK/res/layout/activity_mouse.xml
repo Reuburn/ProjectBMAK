@@ -8,8 +8,40 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.projectbmak.MouseActivity" >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/global_mouse_label" />
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerInside"
+        android:src="@drawable/img_mouse" />
+
+    <View
+        android:id="@+id/view_mouseWheel"
+        android:layout_width="40dp"
+        android:layout_height="200dp"
+        android:layout_alignTop="@+id/imageView1"
+        android:layout_centerHorizontal="true"
+        android:hapticFeedbackEnabled="true" 
+        />
+    
+    <View
+        android:id="@+id/view_mouseLeft"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_alignTop="@+id/imageView1"
+        android:layout_toLeftOf="@+id/view_mouseWheel"
+        android:layout_toStartOf="@+id/view_mouseWheel"
+        android:hapticFeedbackEnabled="true"
+        />
+    
+     <View
+        android:id="@+id/view_mouseRight"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_alignTop="@+id/imageView1"
+        android:layout_toRightOf="@+id/view_mouseWheel"
+        android:layout_toEndOf="@+id/view_mouseWheel"
+        android:hapticFeedbackEnabled="true"
+        />
+
 </RelativeLayout>

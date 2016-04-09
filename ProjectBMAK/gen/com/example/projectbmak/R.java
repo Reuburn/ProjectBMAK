@@ -23,26 +23,66 @@ public final class R {
     }
     public static final class drawable {
         public static final int ic_launcher=0x7f020000;
+        public static final int img_mouse=0x7f020001;
+        public static final int img_winkey=0x7f020002;
     }
     public static final class id {
-        public static final int action_settings=0x7f08000c;
+        public static final int action_settings=0x7f08002f;
         public static final int btn_Keyboard=0x7f08000a;
         public static final int btn_Mouse=0x7f08000b;
-        public static final int btn_altTrigger=0x7f080004;
+        public static final int btn_alt=0x7f080024;
+        public static final int btn_altGr=0x7f080026;
+        public static final int btn_arrowToggle=0x7f080003;
+        public static final int btn_capsLock=0x7f080022;
         public static final int btn_connectComputer=0x7f080009;
-        public static final int btn_ctrlTrigger=0x7f080003;
-        public static final int btn_delTrigger=0x7f080005;
-        public static final int btn_fKeyTrigger=0x7f080002;
+        public static final int btn_ctrl=0x7f080023;
+        public static final int btn_delete=0x7f08002b;
+        public static final int btn_downArrow=0x7f080010;
+        public static final int btn_end=0x7f08002d;
+        public static final int btn_escape=0x7f080021;
+        public static final int btn_f1=0x7f080015;
+        public static final int btn_f10=0x7f08001d;
+        public static final int btn_f11=0x7f08001e;
+        public static final int btn_f12=0x7f08001f;
+        public static final int btn_f2=0x7f080014;
+        public static final int btn_f3=0x7f080016;
+        public static final int btn_f4=0x7f080017;
+        public static final int btn_f5=0x7f080018;
+        public static final int btn_f6=0x7f080019;
+        public static final int btn_f7=0x7f08001a;
+        public static final int btn_f8=0x7f08001b;
+        public static final int btn_f9=0x7f08001c;
+        public static final int btn_fToggle=0x7f080001;
+        public static final int btn_home=0x7f080029;
+        public static final int btn_insert=0x7f080027;
+        public static final int btn_keyboardToggle=0x7f080002;
+        public static final int btn_leftArrow=0x7f080013;
+        public static final int btn_pageDown=0x7f08002e;
+        public static final int btn_pageUp=0x7f08002a;
+        public static final int btn_prtScr=0x7f080028;
+        public static final int btn_rightArrow=0x7f080012;
         public static final int btn_scanDevices=0x7f080008;
-        public static final int btn_showKeyboard=0x7f080001;
+        public static final int btn_shift=0x7f080025;
+        public static final int btn_specFn=0x7f080004;
+        public static final int btn_tab=0x7f080020;
+        public static final int btn_upArrow=0x7f080011;
+        public static final int btn_winKey=0x7f08002c;
+        public static final int container=0x7f080005;
+        public static final int imageView1=0x7f08000c;
         public static final int lbl_bluetoothAvailableLabel=0x7f080007;
         public static final int lst_btListView=0x7f080006;
         public static final int txt_keyboardTitle=0x7f080000;
+        public static final int view_mouseLeft=0x7f08000e;
+        public static final int view_mouseRight=0x7f08000f;
+        public static final int view_mouseWheel=0x7f08000d;
     }
     public static final class layout {
         public static final int activity_keyboard=0x7f030000;
         public static final int activity_main=0x7f030001;
         public static final int activity_mouse=0x7f030002;
+        public static final int fragment_arrow_keys=0x7f030003;
+        public static final int fragment_fkey=0x7f030004;
+        public static final int fragment_special_function=0x7f030005;
     }
     public static final class menu {
         public static final int bluetooth_connection=0x7f070000;
@@ -52,18 +92,49 @@ public final class R {
     }
     public static final class string {
         public static final int action_settings=0x7f050002;
-        public static final int alt_key=0x7f05000e;
         public static final int app_name=0x7f050000;
+        public static final int arrow_Toggle=0x7f05000e;
         public static final int connect_to_computer=0x7f050003;
-        public static final int ctrl_key=0x7f05000d;
-        public static final int del_key=0x7f05000f;
         public static final int disconnectDevice=0x7f050009;
-        public static final int function_key=0x7f05000c;
+        public static final int f_Toggle=0x7f05000c;
         public static final int global_keyboard_label=0x7f050007;
         public static final int global_mouse_label=0x7f050005;
+        public static final int hello_blank_fragment=0x7f050010;
         public static final int hello_world=0x7f050001;
+        public static final int keyboard_Toggle=0x7f05000b;
         public static final int scan_devices=0x7f050008;
-        public static final int show_keyboard=0x7f05000b;
+        public static final int spec_Functions=0x7f05000d;
+        public static final int str_alt=0x7f050021;
+        public static final int str_altGr=0x7f050022;
+        public static final int str_capsLock=0x7f05001f;
+        public static final int str_ctrl=0x7f050020;
+        public static final int str_delete=0x7f050029;
+        public static final int str_downArrow=0x7f05002e;
+        public static final int str_end=0x7f050028;
+        public static final int str_escape=0x7f05001d;
+        public static final int str_f1=0x7f050011;
+        public static final int str_f10=0x7f05001a;
+        public static final int str_f11=0x7f05001b;
+        public static final int str_f12=0x7f05001c;
+        public static final int str_f2=0x7f050012;
+        public static final int str_f3=0x7f050013;
+        public static final int str_f4=0x7f050014;
+        public static final int str_f5=0x7f050015;
+        public static final int str_f6=0x7f050016;
+        public static final int str_f7=0x7f050017;
+        public static final int str_f8=0x7f050018;
+        public static final int str_f9=0x7f050019;
+        public static final int str_home=0x7f050025;
+        public static final int str_insert=0x7f050024;
+        public static final int str_leftArrow=0x7f05002c;
+        public static final int str_pageDown=0x7f050027;
+        public static final int str_pageUp=0x7f050026;
+        public static final int str_prtScr=0x7f05002a;
+        public static final int str_rightArrow=0x7f05002d;
+        public static final int str_shift=0x7f050023;
+        public static final int str_tab=0x7f05001e;
+        public static final int str_upArrow=0x7f05002b;
+        public static final int title_activity_alphanumeric_keyboard=0x7f05000f;
         public static final int title_activity_bluetooth_connection=0x7f05000a;
         public static final int title_activity_keyboard=0x7f050004;
         public static final int title_activity_mouse=0x7f050006;

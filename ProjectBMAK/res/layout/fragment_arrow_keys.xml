@@ -1,0 +1,65 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.projectbmak.ArrowKeysFragment" >
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <Button
+            android:id="@+id/btn_downArrow"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="80dp"
+            android:layout_height="60dp"
+            android:layout_alignLeft="@+id/btn_upArrow"
+            android:layout_alignStart="@+id/btn_upArrow"
+            android:layout_below="@+id/btn_upArrow"
+            android:layout_centerVertical="true"
+            android:onClick="onDownArrowClick"
+            android:text="@string/str_downArrow"
+            android:textSize="32sp" />
+
+        <Button
+            android:id="@+id/btn_rightArrow"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="80dp"
+            android:layout_height="60dp"
+            android:layout_alignBaseline="@+id/btn_downArrow"
+            android:layout_alignBottom="@+id/btn_downArrow"
+            android:layout_toEndOf="@+id/btn_downArrow"
+            android:layout_toRightOf="@+id/btn_downArrow"
+            android:onClick="onRightArrowClick"
+            android:text="@string/str_rightArrow"
+            android:textSize="32sp" />
+
+        <Button
+            android:id="@+id/btn_leftArrow"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="80dp"
+            android:layout_height="60dp"
+            android:layout_alignBaseline="@+id/btn_downArrow"
+            android:layout_alignBottom="@+id/btn_downArrow"
+            android:layout_toLeftOf="@+id/btn_downArrow"
+            android:layout_toStartOf="@+id/btn_downArrow"
+            android:onClick="onLeftArrowClick"
+            android:text="@string/str_leftArrow"
+            android:textSize="32sp" />
+
+        <Button
+            android:id="@+id/btn_upArrow"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="80dp"
+            android:layout_height="60dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:onClick="onUpArrowClick"
+            android:text="@string/str_upArrow"
+            android:textSize="32sp" />
+
+    </RelativeLayout>
+
+</FrameLayout>
