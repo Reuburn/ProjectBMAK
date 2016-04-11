@@ -11,9 +11,7 @@ import android.os.Build;
 import android.util.Log;
 
 public class ConnectThread extends Thread{
-	/**
-	 * 
-	 */
+	
 	private BluetoothSocket btSocket;
 	private final BluetoothDevice btDevice;
 	private final static UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
@@ -49,36 +47,40 @@ public class ConnectThread extends Thread{
 	public void run() {
 		
 		try {
-			Log.e("CONNECTTHREAD", "Connecting...");
+			Log.i("ConnectThread", "Connecting to server.");
 			btSocket.connect();
-			Log.e("CONNECTTHREAD", "Connected");
+			Log.i("ConnectThread", "Connected to server.");
 			setDeviceConnected(true);
 			
 		}
 		catch (IOException connectException) {
 			connectException.printStackTrace();
-			//Log.d("CONNECTTHREAD","Could not connect:" + connectException.toString());
+			Log.e("ConnectThread", "Could not connect to server application.");
 			fallbackMethod();
-			//return;
 		}
 		
 		if (deviceConnected == true){
-			btConnectedThread = new ManageConnectedThread(btSocket);
+			btConnectedThread = new ManageConnectedThread(btSocket, (new ManageConnectedThread.OnManageConnectedThreadCallback() {
+				
+				@Override
+				public void changeToDisconnected() {
+					setDeviceConnected(false);
+				}
+			}));
 			btConnectedThread.start();
 		}
 	}
 
 	private void fallbackMethod() {
 		try{
-			Log.e("CONNECTTHREAD", "Attempting fallback...");
+			Log.i("ConnectThread", "Attempting alternate fallback method.");
 			btSocket = (BluetoothSocket) btDevice.getClass().getMethod("createRfcommSocket", new Class[] {int.class}).invoke(btDevice, 1);
 			btSocket.connect();
-			Log.e("CONNECTTHREAD", "Connected");
+			Log.v("ConnectThread", "Connected to device.");
 			setDeviceConnected(true);
 		}
 		catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | IOException e){
-			e.printStackTrace();
-			Log.d("CONNECTTHREAD","Fallback failed.");
+			Log.e("ConnectThread","Could not connect to server application.");
 			cancel();
 		}
 	}
@@ -86,11 +88,11 @@ public class ConnectThread extends Thread{
 	public void cancel() {
 		try {
 			btSocket.close();
-			Log.e("CONNECTTHREAD", "Connection closed");
+			Log.v("ConnectThread", "Connection is now closed.");
 			setDeviceConnected(false);
 		}
 		catch(IOException e) {
-			Log.d("CONNECTTHREAD", "Unable to close connection: " + e.toString());
+			Log.e("ConnectThread", "Unable to close the connection.");
 			return;
 		}
 		return;

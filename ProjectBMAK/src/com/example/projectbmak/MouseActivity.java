@@ -3,7 +3,6 @@ package com.example.projectbmak;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.view.GestureDetectorCompat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,18 +23,10 @@ public class MouseActivity extends Activity implements SensorEventListener{
 	private SensorManager sensorManager;
 	private Sensor accelerometer;
 	private Sensor proxSensor;
-	private final int MOUSELEFT = 200;
-	private final int MOUSERIGHT = 201;
-	private final int MOUSEDOWN = 202;
-	private final int MOUSEUP = 203;
-	private final float VERYSLOW = (float)0.5;
-	private final float SLOW = (float)0.7;
-	private final float MEDIUM = (float) 0.9;
-	private final float FAST = (float) 1.1;
-	private final float VERYFAST = (float) 1.3;
 	private float scrollOldY;
 	private float scrollNewY;
 	private boolean mouseActive;
+	private MouseMover mouseMover;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +35,7 @@ public class MouseActivity extends Activity implements SensorEventListener{
 			btConnection = BTConnectionFactory.getConnection();
 		}
 		catch(Exception e){
-			Log.i("BTError","No device connected.");
+			Log.e("MouseActivity", "Not connected to the server application.");
 		}
 		
 		try{
@@ -53,7 +44,7 @@ public class MouseActivity extends Activity implements SensorEventListener{
 			proxSensor = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
 		}
 		catch(Exception e){
-			Log.i("SENSOR_ERROR","Accelerometer or Light Sensor not available.");
+			Log.e("MouseActivity","Accelerometer or Light Sensor not available.");
 			sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_GAME);
 			sensorManager.registerListener(this, proxSensor, SensorManager.SENSOR_DELAY_NORMAL);
 		}
@@ -63,6 +54,13 @@ public class MouseActivity extends Activity implements SensorEventListener{
 		View leftMouse = findViewById(R.id.view_mouseLeft);
 		View rightMouse = findViewById(R.id.view_mouseRight);
 		View middleMouse = findViewById(R.id.view_mouseWheel);
+		try{
+			mouseMover = new MouseMover(btConnection.btConnectedThread, this);
+		}
+		catch(Exception e){
+			Log.e("MouseActivity", "No server application connected to receive output.");
+			this.finish();
+		}
 		
 		leftMouse.setOnTouchListener(new View.OnTouchListener(){
 			public boolean onTouch(View view, MotionEvent event) {
@@ -79,9 +77,6 @@ public class MouseActivity extends Activity implements SensorEventListener{
 		            	return true;
 	            }
 				return true;
-
-				
-		         // Your code here
 		    }
 		});
 		
@@ -162,16 +157,13 @@ public class MouseActivity extends Activity implements SensorEventListener{
 	
 	@Override
 	public void onSensorChanged(SensorEvent event) {
-		// TODO Auto-generated method stub
 		if (event.sensor.getType() == Sensor.TYPE_PROXIMITY){
-			
 			if(event.values[0] == 8.0) {
 				mouseActive = false;
 			}
 			if(event.values[0] == 0.0) {
 				mouseActive = true;
 			}
-			Log.i("PROXIMITY", String.valueOf(event.values[0]));
 		}
 		
 		if (event.sensor.getType() == Sensor.TYPE_LINEAR_ACCELERATION && mouseActive){
@@ -185,129 +177,36 @@ public class MouseActivity extends Activity implements SensorEventListener{
 				initialised = true;
 			}
 			else {
-				
 				mLastX = x;
 				mLastY = y;
-							
-				if (Math.round(mLastX) > VERYSLOW){
-					Log.d("DIRECTION", "Left V Slow");
-					btConnection.btConnectedThread.write(MOUSELEFT);
-					if(Math.round(mLastX) > SLOW){
-						Log.d("DIRECTION", "Left Slow");
-						btConnection.btConnectedThread.write(MOUSELEFT);
-						btConnection.btConnectedThread.write(MOUSELEFT);
-						if (Math.round(mLastX) > MEDIUM){
-							Log.d("DIRECTION", "Left Medium");
-							btConnection.btConnectedThread.write(MOUSELEFT);
-							btConnection.btConnectedThread.write(MOUSELEFT);
-							if(Math.round(mLastX) > FAST){
-								Log.d("DIRECTION", "Left Fast");
-								btConnection.btConnectedThread.write(MOUSELEFT);
-								btConnection.btConnectedThread.write(MOUSELEFT);
-								if (Math.round(mLastX) > VERYFAST){
-									Log.d("DIRECTION", "Left V Fast");
-									btConnection.btConnectedThread.write(MOUSELEFT);
-									btConnection.btConnectedThread.write(MOUSELEFT);
-								}
-							}
-						}
-					}
-				}
 				
-				if (Math.round(mLastX) < - VERYSLOW){
-					Log.d("DIRECTION", "Right");				
-					btConnection.btConnectedThread.write(MOUSERIGHT);
-					if (Math.round(mLastX) < - SLOW){
-						btConnection.btConnectedThread.write(MOUSERIGHT);
-						btConnection.btConnectedThread.write(MOUSERIGHT);
-						if (Math.round(mLastX) < - MEDIUM){
-							btConnection.btConnectedThread.write(MOUSERIGHT);
-							btConnection.btConnectedThread.write(MOUSERIGHT);
-							if(Math.round(mLastX) < - FAST){
-								btConnection.btConnectedThread.write(MOUSERIGHT);
-								btConnection.btConnectedThread.write(MOUSERIGHT);
-								if (Math.round(mLastX) < - VERYFAST){
-									btConnection.btConnectedThread.write(MOUSERIGHT);
-									btConnection.btConnectedThread.write(MOUSERIGHT);
-								}
-							}
-						}
-					}
-				}
-				
-				if (Math.round(mLastY) > VERYSLOW){
-					Log.d("DIRECTION", "Down V Slow");
-					btConnection.btConnectedThread.write(MOUSEDOWN);
-					if(Math.round(mLastY) > SLOW){
-						Log.d("DIRECTION", "Down Slow");
-						btConnection.btConnectedThread.write(MOUSEDOWN);
-						btConnection.btConnectedThread.write(MOUSEDOWN);
-						if (Math.round(mLastY) > MEDIUM){
-							Log.d("DIRECTION", "Down Medium");
-							btConnection.btConnectedThread.write(MOUSEDOWN);
-							btConnection.btConnectedThread.write(MOUSEDOWN);
-							if(Math.round(mLastY) > FAST){
-								Log.d("DIRECTION", "Down Fast");
-								btConnection.btConnectedThread.write(MOUSEDOWN);
-								btConnection.btConnectedThread.write(MOUSEDOWN);
-								if (Math.round(mLastY) > VERYFAST){
-									Log.d("DIRECTION", "Down V Fast");
-									btConnection.btConnectedThread.write(MOUSEDOWN);
-									btConnection.btConnectedThread.write(MOUSEDOWN);
-								}
-							}
-						}
-					}	
-				}
-				
-				if (Math.round(mLastY) < - VERYSLOW){
-					Log.d("DIRECTION", "Up");				
-					btConnection.btConnectedThread.write(MOUSEUP);
-					if (Math.round(mLastY) < - SLOW){
-						btConnection.btConnectedThread.write(MOUSEUP);
-						btConnection.btConnectedThread.write(MOUSEUP);
-						if (Math.round(mLastY) < - MEDIUM){
-							btConnection.btConnectedThread.write(MOUSEUP);
-							btConnection.btConnectedThread.write(MOUSEUP);
-							if(Math.round(mLastY) < - FAST){
-								btConnection.btConnectedThread.write(MOUSEUP);
-								btConnection.btConnectedThread.write(MOUSEUP);
-								if (Math.round(mLastY) < - VERYFAST){
-									btConnection.btConnectedThread.write(MOUSEUP);
-									btConnection.btConnectedThread.write(MOUSEUP);
-								}
-							}
-						}
-					}
-				}
+				mouseMover.moveMouse(mLastX, mLastY);
 			}
 		}
 	}
 
 	@Override
 	public void onAccuracyChanged(Sensor sensor, int accuracy) {
-		// TODO Auto-generated method stub
 		
 	}
 	
 	public void leftClick(){
-		btConnection.btConnectedThread.write(204);
+		handleDataTransfer(204);
 	}
 	
 	public void leftClickRelease(){
-		btConnection.btConnectedThread.write(207);
+		handleDataTransfer(207);
 	}
 	
 	public void rightClick(){
-		btConnection.btConnectedThread.write(206);
+		handleDataTransfer(206);
 	}
 	
 	public void rightClickRelease(){
-		btConnection.btConnectedThread.write(209);
+		handleDataTransfer(209);
 	}
 	
 	public void scrollWheel(float oldY, float newY){
-		Log.i("SCROLLVALUES", "Old Y: " + String.valueOf(oldY) + " New Y: " + String.valueOf(newY));
 		if (newY == oldY){
 			middleClick(); 
 			middleClickRelease();
@@ -323,7 +222,7 @@ public class MouseActivity extends Activity implements SensorEventListener{
 	
 	public void scrollUpCommand(int iterations){
 		for (int i = 0; i < iterations; i++){
-			btConnection.btConnectedThread.write(210);
+			handleDataTransfer(210);
 		}
 	}
 	
@@ -334,16 +233,26 @@ public class MouseActivity extends Activity implements SensorEventListener{
 	
 	public void scrollDownCommand(int iterations){
 		for (int i = 0; i < iterations; i++){
-			btConnection.btConnectedThread.write(211);
+			handleDataTransfer(211);
 		}
 	}
 	
 	public void middleClick(){
-		btConnection.btConnectedThread.write(205);
+		handleDataTransfer(205);
 	}
 	
 	public void middleClickRelease(){
-		btConnection.btConnectedThread.write(208);
+		handleDataTransfer(208);
+	}
+	
+	private void handleDataTransfer(int data){
+		try{
+			btConnection.btConnectedThread.write(data);
+		}
+		catch (Exception e){
+			Log.e("MouseActivity", "No server application connected to receive output.");
+			MouseActivity.this.finish();
+		}
 	}
 	
 }

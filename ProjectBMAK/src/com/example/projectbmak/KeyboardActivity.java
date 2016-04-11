@@ -40,8 +40,7 @@ public class KeyboardActivity extends KeyboardInputOverrideActivity
 			public boolean onEditorAction(TextView v, int actionId,
 					KeyEvent event) {
 				if (event.getAction()==KeyEvent.ACTION_DOWN && event.getKeyCode()==KeyEvent.KEYCODE_ENTER){
-					Log.e("WEDIDIT","WOOOOOO");
-					btConnection.btConnectedThread.write(33);
+					handleDataTransfer(33);
 					return true;
 				}
 				return false;
@@ -127,163 +126,171 @@ public class KeyboardActivity extends KeyboardInputOverrideActivity
 	
 	public void onF1Click(View v){
 		v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-		btConnection.btConnectedThread.write(58);
+		handleDataTransfer(58);
 	}
 	
 	public void onF2Click(View v){
 		v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-		btConnection.btConnectedThread.write(59);
+		handleDataTransfer(59);
 	}
 	
 	public void onF3Click(View v){
 		v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-		btConnection.btConnectedThread.write(60);
+		handleDataTransfer(60);
 	}
 	
 	public void onF4Click(View v){
 		v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-		btConnection.btConnectedThread.write(61);
+		handleDataTransfer(61);
 	}
 	
 	public void onF5Click(View v){
 		v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-		btConnection.btConnectedThread.write(62);
+		handleDataTransfer(62);
 	}
 	
 	public void onF6Click(View v){
 		v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-		btConnection.btConnectedThread.write(63);
+		handleDataTransfer(63);
 	}
 	
 	public void onF7Click(View v){
 		v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-		btConnection.btConnectedThread.write(64);
+		handleDataTransfer(64);
 	}
 	
 	public void onF8Click(View v){
 		v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-		btConnection.btConnectedThread.write(65);
+		handleDataTransfer(65);
 	}
 	
 	public void onF9Click(View v){
 		v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-		btConnection.btConnectedThread.write(66);
+		handleDataTransfer(66);
 	}
 	
 	public void onF10Click(View v){
 		v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-		btConnection.btConnectedThread.write(67);
+		handleDataTransfer(67);
 	}
 	
 	public void onF11Click(View v){
 		v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-		btConnection.btConnectedThread.write(68);
+		handleDataTransfer(68);
 	}
 	
 	public void onF12Click(View v){
 		v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-		btConnection.btConnectedThread.write(69);
+		handleDataTransfer(69);
 	}
 	
 	public void onEscapeClick(View v){
 		v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-		btConnection.btConnectedThread.write(74);
+		handleDataTransfer(74);
 	}
 	
 	public void onTabClick(View v){
 		v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-		btConnection.btConnectedThread.write(89);
+		handleDataTransfer(89);
 	}
 	
 	public void onCapsLockClick(View v){
 		v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-		btConnection.btConnectedThread.write(37);
+		handleDataTransfer(37);
 	}
 	
 	public void onShiftClick(View v){
 		v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-		btConnection.btConnectedThread.write(36);
+		handleDataTransfer(36);
 	}
 	
 	public void onCtrlClick(View v){
 		v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-		btConnection.btConnectedThread.write(48);
+		handleDataTransfer(48);
 	}
 	
 	public void onAltClick(View v){
 		v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-		btConnection.btConnectedThread.write(49);
+		handleDataTransfer(49);
 	}
 	
 	public void onPrtScrClick(View v){
 		v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-		btConnection.btConnectedThread.write(88);
+		handleDataTransfer(88);
 	}
 	
 	public void onWinKeyClick(View v){
 		v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-		btConnection.btConnectedThread.write(57);
+		handleDataTransfer(57);
 	}
 	
 	public void onAltGrClick(View v){
 		v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-		btConnection.btConnectedThread.write(48);
-		btConnection.btConnectedThread.write(49);
+		handleDataTransfer(48);
+		handleDataTransfer(49);
 	}
 	
 	public void onInsertClick(View v){
 		v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-		btConnection.btConnectedThread.write(55);
+		handleDataTransfer(55);
 	}
 	
 	public void onHomeClick(View v){
 		v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-		btConnection.btConnectedThread.write(51);
+		handleDataTransfer(51);
 	}
 	
 	public void onPageUpClick(View v){
 		v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-		btConnection.btConnectedThread.write(53);
+		handleDataTransfer(53);
 	}
 	
 	public void onDeleteClick(View v){
 		v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-		btConnection.btConnectedThread.write(50);
+		handleDataTransfer(50);
 	}
 	
 	public void onEndClick(View v){
 		v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-		btConnection.btConnectedThread.write(52);
+		handleDataTransfer(52);
 	}
 	
 	public void onPageDownClick(View v){
 		v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-		btConnection.btConnectedThread.write(54);
+		handleDataTransfer(54);
 	}
 	
 	public void onUpArrowClick(View v){
 		v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-		btConnection.btConnectedThread.write(70);
+		handleDataTransfer(70);
 	}
 	
 	public void onLeftArrowClick(View v){
 		v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-		btConnection.btConnectedThread.write(71);
+		handleDataTransfer(71);
 	}
 	
 	public void onRightArrowClick(View v){
 		v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-		btConnection.btConnectedThread.write(72);
+		handleDataTransfer(72);
 	}
 	
 	public void onDownArrowClick(View v){
 		v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-		btConnection.btConnectedThread.write(73);
+		handleDataTransfer(73);
 	}
 
 	@Override
 	public void onFragmentInteraction(Uri uri) {
-		// TODO Auto-generated method stub
-		
+	}
+	
+	private void handleDataTransfer(int data){
+		try{
+			btConnection.btConnectedThread.write(data);
+		}
+		catch(Exception e) {
+			Log.e("KeyboardActivity", "No server application connected to receive output.");
+			KeyboardActivity.this.finish();
+		}
 	}
 }

@@ -43,6 +43,8 @@ public class MainActivity extends Activity{
 		data.lbl_bluetoothAvailable.setText("Checking if Bluetooth is available.");
 		
 		data.btn_connectComputer.setEnabled(false);
+		data.btn_keyboard.setEnabled(false);
+		data.btn_mouse.setEnabled(false);
 		
 		data.lst_btList.setOnItemClickListener(new OnItemClickListener(){
 			@Override
@@ -54,6 +56,7 @@ public class MainActivity extends Activity{
 				data.str_selectedDevice = ((TextView)v).getText().toString();
 				
 				showToast(data.str_selectedDevice + " has been selected.");
+				changeBluetoothAvailabilityLabel(3);
 				data.btn_connectComputer.setEnabled(true);
 			}
 
@@ -67,6 +70,8 @@ public class MainActivity extends Activity{
 		data.lbl_bluetoothAvailable = (TextView) findViewById(R.id.lbl_bluetoothAvailableLabel);
 		data.btn_scanDevices = (Button) findViewById(R.id.btn_scanDevices);
 		data.btn_connectComputer = (Button) findViewById(R.id.btn_connectComputer);
+		data.btn_keyboard = (Button) findViewById(R.id.btn_Keyboard);
+		data.btn_mouse = (Button) findViewById(R.id.btn_Mouse);
 		data.lst_btList = (ListView) findViewById(R.id.lst_btListView);
 		int items = 0;
 		data.adpt_btArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
@@ -110,7 +115,7 @@ public class MainActivity extends Activity{
 	protected void onActivityResult(int requestCode, int resultCode, Intent data){
 		if (requestCode == REQUEST_ENABLE_BT) {
 			if (resultCode == RESULT_OK){
-				this.changeBluetoothAvailabilityLabel();
+				this.changeBluetoothAvailabilityLabel(1);
 			}
 			else{
 				finish();
@@ -129,14 +134,15 @@ public class MainActivity extends Activity{
 			btConnection = new ConnectThread(contactedDevice, (new ConnectThread.OnConnectionCallback () {
 	            @Override
 	            public void onConnected() {
-	            	Log.i("MAINACTIVITY","Connected now");
+	            	Log.v("MainActivity","Now connected to server.");
 	            	deviceConnected = true;
-	            	;
+	    			changeConnectButtonText(deviceConnected);
 	            }
 	            @Override
 	            public void onConnectedFailed() {
-	            	Log.i("MAINACTIVITY","Connection failed");
+	            	Log.e("MainActivity","Unable to connect to server application.");
 	            	deviceConnected = false;
+	            	changeConnectButtonText(deviceConnected);
 	            }
 			}));
 			btConnection.start();
@@ -144,15 +150,37 @@ public class MainActivity extends Activity{
 		}
 		else if (deviceConnected == true){
 			btConnection.cancel();
-			Log.i("MAINACTIVITY","Disconnected Successfully");
+			Log.v("MainActivity","Successfully disconnected from the server application.");
 			deviceConnected = false;
 			changeConnectButtonText(deviceConnected);
 		}
 		
 	}
 
-	public void changeBluetoothAvailabilityLabel(){
-		data.lbl_bluetoothAvailable.setText("Please scan for devices.");
+	public void changeBluetoothAvailabilityLabel(int scenario){
+		switch (scenario){
+		case 1:
+			data.lbl_bluetoothAvailable.setText("Please scan for devices or select a previously paired device.");
+			break;
+		case 2:
+			data.lbl_bluetoothAvailable.setText("Please select a device to connect to.");
+			break;
+		case 3:
+			data.lbl_bluetoothAvailable.setText("Press 'Connect to Device' to connect to " + data.str_selectedDevice + ".");
+			break;
+		case 4:
+			data.lbl_bluetoothAvailable.setText("Connected to " + contactedDevice.getName() + ".");
+			break;
+		case 5:
+			data.lbl_bluetoothAvailable.setText("Scanning for devices...");
+			break;
+		case 6:
+			data.lbl_bluetoothAvailable.setText("This device does not support bluetooth.");
+			break;
+		case 7:
+			data.lbl_bluetoothAvailable.setText("Please enable bluetooth.");
+			break;
+		}
 	}
 	
 	public void changeConnectButtonText(boolean deviceConnected){
@@ -161,6 +189,9 @@ public class MainActivity extends Activity{
 			     @Override
 			     public void run() {
 			    	 data.btn_connectComputer.setText("Disconnect Device");
+			    	 changeBluetoothAvailabilityLabel(4);
+			    	 data.btn_keyboard.setEnabled(true);
+			    	 data.btn_mouse.setEnabled(true);
 			    	 showToast(contactedDevice.getName() + " is connected.");
 			     }});
 		}
@@ -169,6 +200,9 @@ public class MainActivity extends Activity{
 			     @Override
 			     public void run() {
 			    	 data.btn_connectComputer.setText("Connect to Device");
+			    	 changeBluetoothAvailabilityLabel(2);
+			    	 data.btn_keyboard.setEnabled(false);
+			    	 data.btn_mouse.setEnabled(false);
 			    	 showToast("Disconnected from device.");
 			     }});
 		}
@@ -179,18 +213,18 @@ public class MainActivity extends Activity{
 		
 		if (data.adpt_btAdapter == null) {
 			//No Bluetooth on this device
-			data.lbl_bluetoothAvailable.setText("This device doesn't support bluetooth.");
+			changeBluetoothAvailabilityLabel(6);
 		}
 		else if (!data.adpt_btAdapter.isEnabled()) {
 			requestToEnableBt();
 		}
 		else if (data.adpt_btAdapter.isEnabled()) {
-			data.lbl_bluetoothAvailable.setText("Please scan for devices.");
+			changeBluetoothAvailabilityLabel(1);
 		}
 	}
 	
 	private void requestToEnableBt() {
-		data.lbl_bluetoothAvailable.setText("Please enable bluetooth.");
+		changeBluetoothAvailabilityLabel(7);
 		Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
 		startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
 	}
@@ -200,35 +234,34 @@ public class MainActivity extends Activity{
 		if (data.adpt_btAdapter.isDiscovering()){
 			
 			stopDiscoveringDevices();
+			changeBluetoothAvailabilityLabel(2);
 			
 		} else {
-			
 			discoverDevices();
-			
 		}
-		
-		data.lbl_bluetoothAvailable.setText("Please select a device to connect to.");
 		
 	}
 
 	private void discoverDevices() {
 		data.adpt_btArrayAdapter.clear();
 		
-		Log.i("Discovery","Beginning discovery");
+		Log.i("MainActivity","Searching for available server applications.");
 		showToast("Beginning discovery...");
 
 		discoverNew(data.adpt_btArrayAdapter);
 		
+		changeBluetoothAvailabilityLabel(5);
 		data.btn_scanDevices.setText("Stop Scanning");
 	}
 
 	private void stopDiscoveringDevices() {
 		data.adpt_btAdapter.cancelDiscovery();
 		
-		Log.i("Discovery","Discovery has been stopped.");
+		Log.v("MainActivity", "Search for available server applications finished.");
 		showToast("Discovery has been stopped.");
 		
 		data.btn_scanDevices.setText("Scan Devices");
+		changeBluetoothAvailabilityLabel(2);
 	}
 	
 	public void scanPaired(ArrayAdapter<String> btArrayAdapter){
@@ -260,7 +293,13 @@ public class MainActivity extends Activity{
 	
 	@Override
 	public void onDestroy() {
-		unregisterReceiver(data.btBroadcastReceiver);
+		try{
+			unregisterReceiver(data.btBroadcastReceiver);
+		}
+		catch (Exception e){
+			Log.e("MainActivity","No broadcast receiver to destroy.");
+		}
+		
 		super.onDestroy();
 	}
 
@@ -268,8 +307,7 @@ public class MainActivity extends Activity{
 		Intent intent = new Intent(this,KeyboardActivity.class);
 		v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 		startActivity(intent);
-	}
-	
+	}	
 	public void switchToMouse(View v){
 		Intent intent = new Intent(this,MouseActivity.class);
 		v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);

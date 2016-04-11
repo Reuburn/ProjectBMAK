@@ -12,7 +12,7 @@ public abstract class KeyboardInputOverrideActivity extends Activity {
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		
 		try {
-			Log.e("WHATVALUE", String.valueOf(event.getKeyCode()));
+			Log.i("KeyboardInputOverrideActivity", String.valueOf(event.getKeyCode()));
 		switch (keyCode){
 			case KeyEvent.KEYCODE_VOLUME_UP:
 				btConnection.btConnectedThread.write(ManageConnectedThread.VOL_UP_PRESS);
@@ -245,7 +245,8 @@ public abstract class KeyboardInputOverrideActivity extends Activity {
 			}
 		}
 		catch(Exception e){
-			//Log.e("KEYBOARDINPUT", e.toString());
+			Log.e("KeyboardInputOverrideActivity", "No server application connected to receive output.");
+			this.finish();
 		}
 		return super.onKeyDown(keyCode, event);
 	}

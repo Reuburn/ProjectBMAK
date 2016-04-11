@@ -26,17 +26,17 @@ public class BluetoothDiscoveryManager {
 	public ListView lst_btList;
 	public Button btn_scanDevices;
 	public Button btn_connectComputer;
+	public Button btn_keyboard;
+	public Button btn_mouse;
 	
 	public BroadcastReceiver btBroadcastReceiver = new BroadcastReceiver() {
 	    public void onReceive(Context context, Intent intent) {
 	        String str_action = intent.getAction();
 	 
 	        if (BluetoothAdapter.ACTION_DISCOVERY_STARTED.equals(str_action)) {
-	            //discovery starts, we can show progress dialog or perform other tasks
 	        } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(str_action)) {
-	        	Log.e("","Discovery finished");
+	        	Log.v("BluetoothDiscoveryManager", "Search for available server applications has ended.");
 	        	btn_scanDevices.setText("Scan Devices");
-	            //discovery finishes, dismis progress dialog
 	        } else if (BluetoothDevice.ACTION_FOUND.equals(str_action)) {
 	            addDeviceToList(intent);
 	        }
@@ -53,7 +53,7 @@ public class BluetoothDiscoveryManager {
 			}
 			
 			adpt_btArrayAdapter.add(str_deviceName + "\n" + str_deviceAddress);
-			Log.d("",str_deviceName + " has been found.");
+			Log.i("",str_deviceName + " has been found.");
 			lst_btList.setAdapter(adpt_btArrayAdapter);
 			hm_btDeviceMap.put(str_deviceAddress, device);
 		}
